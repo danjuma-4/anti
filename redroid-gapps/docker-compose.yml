@@ -1,0 +1,35 @@
+# Redroid 11 with Google Play Services baked into the image.
+#
+# Use this AFTER 01-build-and-boot.sh has run once, so that the tag
+# redroid/redroid:11.0.0-gapps exists locally.
+#
+#   docker compose up -d
+#
+# Compose replaces the one-off `docker run` from the build script. Both
+# point at the same image and the same ./data volume - only run one.
+
+services:
+  android:
+    image: redroid/redroid:11.0.0-gapps
+    container_name: redroid_google_instance
+    privileged: true
+    restart: always
+    volumes:
+      - ./data:/data
+    ports:
+      - "5555:5555"
+    command:
+      - androidboot.redroid_gpu_mode=guest
+      - androidboot.redroid_fps=30
+      - androidboot.redroid_width=720
+      - androidboot.redroid_height=1280
+      - ro.product.cpu.abilist=x86_64,x86,armeabi-v7a,armeabi
+      - ro.product.cpu.abilist64=x86_64
+      - ro.product.cpu.abilist32=x86,armeabi-v7a,armeabi
+
+# No proxy container, no fingerprint spoofing, no entrypoint override.
+#
+# Proxying is applied from inside Android instead, via 02-proxy.sh. Doing
+# it here as a sibling container (gluetun, redsocks, tun2socks) puts the
+# adb port behind another container's netns, which is what made port 5555
+# intermittently refuse connections in earlier attempts.
