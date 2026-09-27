@@ -11,7 +11,7 @@
 # http_proxy from the container environment. Only the Settings database
 # is honoured.
 #
-# Usage:  bash 02-proxy.sh set gate.nodemaven.com 1132
+# Usage:  bash 02-proxy.sh set proxy.example.com 8080
 #         bash 02-proxy.sh off
 # ---------------------------------------------------------------------------
 set -euo pipefail
@@ -28,8 +28,7 @@ alive() {
 case "$cmd" in
   set)
     host="${2:?usage: 02-proxy.sh set <host> <port>}"
-    port="${3:?usage: 02-proxy.sh set <host> <port>}"
-    alive || { echo "container not responding - is it up? (docker ps)"; exit 1; }
+    port="${3:?usage: 02-proxy.sh set <host> <port>}"    alive || { echo "container not responding - is it up? (docker ps)"; exit 1; }
 
     echo "applying $host:$port"
     adb_ settings put global http_proxy "$host:$port"

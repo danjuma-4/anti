@@ -1,0 +1,12 @@
+# Force LF on anything that runs on the VPS. Without this, git checks out
+# CRLF on Windows and the .sh files fail on Linux with "\r: command not found".
+* text=auto eol=lf
+
+*.sh  text eol=lf
+*.yml text eol=lf
+*.md  text eol=lf
+config.local.ps1.example text eol=lf
+
+# PowerShell is Windows-only, so native CRLF is fine and keeps the
+# console readable.
+*.ps1 text eol=crlf

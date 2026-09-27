@@ -26,9 +26,21 @@ change that.
 
 Transfer them, e.g.:
 
-```powershell
-scp .\redroid-gapps\* root@185.223.252.137:~/redroid-gapps/
+```bash
+scp -r ./redroid-gapps root@YOUR.VPS.IP.HERE:~/
 ```
+
+## One-time setup
+
+On Windows, so the script knows where your VPS is:
+
+```powershell
+copy config.local.ps1.example config.local.ps1
+notepad config.local.ps1
+```
+
+`config.local.ps1` is gitignored, so your server address stays out of the
+repository. On the VPS there is nothing to configure.
 
 ## Run order
 
@@ -90,11 +102,10 @@ port behind another netns, which is what caused the intermittent
 "actively refused" in earlier attempts.
 
 ```bash
-bash 02-proxy.sh set gate.nodemaven.com 1132
+bash 02-proxy.sh set proxy.example.com 8080
 bash 02-proxy.sh show
 bash 02-proxy.sh off          # undo
 ```
-
 The exclude list this writes is what keeps the device's own loopback and adb
 bridge traffic out of the proxy. Without it Android routes its internal
 traffic through the proxy, adbd loses its socket, and you get "device

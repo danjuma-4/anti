@@ -1,0 +1,19 @@
+# Android data partition - the device's state, not source.
+data/
+data*/
+
+# Per-machine config: your VPS address. Copy config.local.ps1.example
+# to config.local.ps1 and edit it. Never commit the real one.
+config.local.ps1
+
+# Built image artifacts
+*.apk
+*.img
+*.zip
+
+# Editor / OS noise
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.swp

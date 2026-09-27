@@ -1,11 +1,14 @@
 # Windows-side helper. Run from PowerShell on your PC, not the VPS.
 #
+#   copy config.local.ps1.example config.local.ps1   # once, then edit it
 #   powershell -ExecutionPolicy Bypass -File connect.ps1
-#   powershell -ExecutionPolicy Bypass -File connect.ps1 -VpsHost 185.223.252.137
+#
+# Command-line overrides still work:
+#   powershell -ExecutionPolicy Bypass -File connect.ps1 -VpsHostIp 1.2.3.4
 
 param(
-    [string]$VpsHostIp = "185.223.252.137",
-    [int]$Port = 5555,
+    [string]$VpsHostIp = "",
+    [int]$Port = 0,
     [int]$MaxSize = 1024,
     [int]$BitRate = 4000000,
     [int]$MaxFps = 30
@@ -14,6 +17,18 @@ param(
 $ErrorActionPreference = "Stop"
 
 function Step($msg) { Write-Host "`n==> $msg" -ForegroundColor Cyan }
+
+# Load per-machine config (gitignored), then let explicit params win.
+$cfg = Join-Path $PSScriptRoot "config.local.ps1"
+if (Test-Path $cfg) { . $cfg }
+
+if (-not $VpsHostIp) {
+    Write-Host "No VPS address set." -ForegroundColor Red
+    Write-Host "  copy config.local.ps1.example config.local.ps1`n" -ForegroundColor Yellow
+    Write-Host "or pass one:  .\connect.ps1 -VpsHostIp 1.2.3.4" -ForegroundColor Yellow
+    exit 1
+}
+if ($Port -eq 0) { $Port = 5555 }
 
 # A wedged adb.exe on Windows produces "actively refused" on 127.0.0.1:5037
 # even when the VPS is fine. Force-kill it first.

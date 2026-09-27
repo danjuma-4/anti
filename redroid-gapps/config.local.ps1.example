@@ -1,0 +1,11 @@
+# Copy to config.local.ps1 and edit. config.local.ps1 is gitignored.
+#
+#   copy config.local.ps1.example config.local.ps1
+#
+# Then:  powershell -ExecutionPolicy Bypass -File connect.ps1
+
+# Public IPv4 of the VPS running the container.
+$VpsHostIp = "YOUR.VPS.IP.HERE"
+
+# Published adb port (must match the compose `ports:` entry).
+$Port = 5555
