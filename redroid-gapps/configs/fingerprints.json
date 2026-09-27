@@ -1,0 +1,14 @@
+{
+  "10": {
+    "fingerprint": "google/blueline/blueline:10/QQ3A.200805.001/6578210:user/release-keys",
+    "model": "Pixel 3"
+  },
+  "11": {
+    "fingerprint": "google/redfin/redfin:11/RQ3A.211001.001/7641976:user/release-keys",
+    "model": "Pixel 5"
+  },
+  "12": {
+    "fingerprint": "google/raven/raven:12/SQ1D.211205.016.A1/7950000:user/release-keys",
+    "model": "Pixel 6"
+  }
+}
